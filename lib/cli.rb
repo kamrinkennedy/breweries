@@ -5,19 +5,20 @@ class CLI
         puts "Welcome!"
         puts "To exit the program, type 'exit'."
         puts "Please type the name of a state to view its breweries:"
-        
+        Brewery.clear
         input = gets.strip.downcase.gsub(" ", "_")
         if input == "exit"
             return
         else
         until API.fetch_breweries(input) != []
+            return if input == "exit"
             puts "Invalid choice, please try again:"
             input = gets.strip.downcase.gsub(" ", "_")
         end
         
         brewery_display
         user_selection
-        sleep 8
+        sleep 5
         start
         end
     end
@@ -35,12 +36,16 @@ class CLI
     end
 
     def user_selection
-        index = gets.strip.to_i - 1
+        input = gets.strip
+        return if input.downcase == 'exit'
+        index = input.strip.to_i - 1
         until index.between?(0, Brewery.all.length - 1)
             puts "Invalid choice, please try again:"
+            index = gets.strip.to_i - 1
         end
         brewery_instance = Brewery.all[index]
         formatted_number = brewery_instance.phone.insert(0, "(").insert(4, ")").insert(8, "-")
+
         puts "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
         puts "#{brewery_instance.name}"
         puts "Brewery Type: #{brewery_instance.brewery_type.capitalize}"
