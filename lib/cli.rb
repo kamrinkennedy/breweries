@@ -1,10 +1,10 @@
 class CLI
 
     def start
-        puts "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
-        puts "Welcome!"
-        puts "To exit the program, type 'exit'."
-        puts "Please type the name of a state to view its breweries:"
+        puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
+        puts Rainbow("Welcome!").coral
+        puts Rainbow("To exit the program, type 'exit'.").coral
+        puts Rainbow("Please type the name of a state or city in the U.S. to view its breweries:").coral
         Brewery.clear
         input = gets.strip.downcase.gsub(" ", "_")
         if input == "exit"
@@ -12,7 +12,7 @@ class CLI
         else
         until API.fetch_breweries(input) != []
             return if input == "exit"
-            puts "Invalid choice, please try again:"
+            puts Rainbow("Invalid choice, please try again:").maroon
             input = gets.strip.downcase.gsub(" ", "_")
         end
         
@@ -27,12 +27,12 @@ class CLI
        
         Brewery.all.each.with_index(1) do |brewery, index|
             
-            puts "#{index}. #{brewery.name} - #{brewery.city}"
-            puts "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
+            puts Rainbow("#{index}. ").blanchedalmond + Rainbow("#{brewery.name} ").maroon + Rainbow("- #{brewery.city}").turquoise
+            puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
               
         end
 
-        puts "For more information on a brewery, type its associated number:"
+        puts Rainbow("For more information on a brewery, type its associated number:").coral
     end
 
     def user_selection
@@ -40,18 +40,22 @@ class CLI
         return if input.downcase == 'exit'
         index = input.strip.to_i - 1
         until index.between?(0, Brewery.all.length - 1)
-            puts "Invalid choice, please try again:"
+            puts Rainbow("Invalid choice, please try again:").maroon
             index = gets.strip.to_i - 1
         end
+        
         brewery_instance = Brewery.all[index]
-        formatted_number = brewery_instance.phone.insert(0, "(").insert(4, ")").insert(8, "-")
 
-        puts "_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _"
-        puts "#{brewery_instance.name}"
-        puts "Brewery Type: #{brewery_instance.brewery_type.capitalize}"
-        puts "Location: #{brewery_instance.street} --- #{brewery_instance.city}, #{brewery_instance.state}"
-        puts "Phone Number: #{formatted_number}"
-        puts "Website: #{brewery_instance.website_url}"  if brewery_instance.website_url != ''
+        if brewery_instance.phone != ''
+            formatted_number = brewery_instance.phone.insert(0, "(").insert(4, ")").insert(8, "-") 
+        end 
+
+        puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
+        puts Rainbow("#{brewery_instance.name}").maroon
+        puts Rainbow("Brewery Type: ").blanchedalmond + Rainbow("#{brewery_instance.brewery_type.capitalize}").turquoise
+        puts Rainbow("Location: ").blanchedalmond + Rainbow("#{brewery_instance.street} --- #{brewery_instance.city}, #{brewery_instance.state}").turquoise
+        puts Rainbow("Phone Number: ").blanchedalmond + Rainbow("#{formatted_number}").turquoise if formatted_number != nil
+        puts Rainbow("Website: ").blanchedalmond + Rainbow("#{brewery_instance.website_url}").turquoise  if brewery_instance.website_url != ''
 
     end
 

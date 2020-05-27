@@ -16,5 +16,4 @@ class Brewery
         @@all.clear
     end
 
-
 end

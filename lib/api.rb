@@ -3,13 +3,20 @@ require 'pry'
 
 
 class API
-    def self.fetch_breweries(state)
+    def self.fetch_breweries(location)
 
-        url = "https://api.openbrewerydb.org/breweries?by_state=#{state}"
+        url = "https://api.openbrewerydb.org/breweries?by_state=#{location}"
         uri = URI(url)
         response = Net::HTTP.get(uri)
         brewery_array = JSON.parse(response)
-      
+
+      if brewery_array == []
+        url = "https://api.openbrewerydb.org/breweries?by_city=#{location}"
+        uri = URI(url)
+        response = Net::HTTP.get(uri)
+        brewery_array = JSON.parse(response)
+
+      end
 
         brewery_array.each.with_index do |hash, index|
             brewery_instance = Brewery.new
