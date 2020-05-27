@@ -18,7 +18,7 @@ class API
 
       end
 
-        brewery_array.each.with_index do |hash, index|
+        brewery_array.each do |hash|
             brewery_instance = Brewery.new
             brewery_instance.name = hash["name"]
             brewery_instance.city = hash["city"]
