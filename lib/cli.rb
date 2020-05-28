@@ -1,7 +1,7 @@
 class CLI
 
     def start
-        puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
+        puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
         puts Rainbow("Welcome!").coral
         puts Rainbow("To exit the program, type 'exit'.").coral
         puts Rainbow("Please type the name of a state or city in the U.S. to view its breweries:").coral
