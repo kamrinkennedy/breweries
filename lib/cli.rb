@@ -10,10 +10,10 @@ class CLI
         if input == "exit"
             return
         else
-        until API.fetch_breweries(input) != []
-            return if input == "exit"
+        until API.fetch_breweries(input) != [] || input == 'exit'
             puts Rainbow("Invalid choice, please try again:").maroon
             input = gets.strip.downcase.gsub(" ", "_")
+            return if input == "exit" 
         end
         
         brewery_display
@@ -46,15 +46,11 @@ class CLI
         
         brewery_instance = Brewery.all[index]
 
-        if brewery_instance.phone != ''
-            formatted_number = brewery_instance.phone.insert(0, "(").insert(4, ")").insert(8, "-") 
-        end 
-
         puts Rainbow("_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _").blue
         puts Rainbow("#{brewery_instance.name}").maroon
         puts Rainbow("Brewery Type: ").blanchedalmond + Rainbow("#{brewery_instance.brewery_type.capitalize}").turquoise
         puts Rainbow("Location: ").blanchedalmond + Rainbow("#{brewery_instance.street} --- #{brewery_instance.city}, #{brewery_instance.state}").turquoise
-        puts Rainbow("Phone Number: ").blanchedalmond + Rainbow("#{formatted_number}").turquoise if formatted_number != nil
+        puts Rainbow("Phone Number: ").blanchedalmond + Rainbow("#{brewery_instance.phone}").turquoise if brewery_instance.phone != nil
         puts Rainbow("Website: ").blanchedalmond + Rainbow("#{brewery_instance.website_url}").turquoise  if brewery_instance.website_url != ''
 
     end
